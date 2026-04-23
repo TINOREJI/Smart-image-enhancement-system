@@ -4,7 +4,8 @@ import cv2
 
 from modules.task_predictor import predict_tasks
 from modules.features import extract_features
-from modules.pipeline_selector import process_image
+from modules.variants import generate_variants
+from modules.selector import select_best_variant
 
 app = Flask(__name__)
 
@@ -31,14 +32,13 @@ def index():
         if img is None:
             return render_template("index.html", error="Invalid image")
 
-        # 🔥 MULTI TASK DETECTION
         tasks = predict_tasks(img)
-
-        # features
         features = extract_features(img)
 
-        # enhancement
-        output_img, pipeline = process_image(img, tasks)
+        variants = generate_variants(img, tasks)
+
+        # 🔥 FIXED LINE
+        output_img, selected_name = select_best_variant(variants, tasks)
 
         output_path = os.path.join(OUTPUT_FOLDER, "output.jpg")
         cv2.imwrite(output_path, output_img)
@@ -48,7 +48,7 @@ def index():
             original=filepath,
             output=output_path,
             tasks=tasks,
-            pipeline="_".join(pipeline),
+            pipeline=selected_name,
             features=features
         )
 

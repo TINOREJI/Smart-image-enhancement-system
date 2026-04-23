@@ -12,10 +12,6 @@ def process_image(img, tasks):
     # ---------------- INTENT ----------------
     if is_artistic_dark(img):
         return img, ["no_change"]
-
-    if is_good_image(img) and "noise" not in tasks:
-        return img, ["no_change"]
-
     # ---------------- LOW LIGHT ----------------
     if "face" in tasks and "low_light" in tasks:
         # ONLY face-aware enhancement (not both)
