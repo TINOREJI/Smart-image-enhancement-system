@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Smart Image Enhancement</title>
+
+<style>
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* BODY */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: radial-gradient(circle at top, #0f172a, #020617);
+    color: #e2e8f0;
+}
+
+/* CONTAINER */
+.container {
+    width: 92%;
+    max-width: 1400px;
+    margin: auto;
+    padding: 40px 0;
+}
+
+/* HEADER */
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.header h1 {
+    font-size: 34px;
+    font-weight: 600;
+}
+
+.header p {
+    opacity: 0.6;
+    margin-top: 8px;
+}
+
+/* UPLOAD */
+.upload-box {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 40px;
+}
+
+input[type="file"] {
+    padding: 10px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    color: white;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    background: #3b82f6;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #2563eb;
+}
+
+/* IMAGE GRID */
+.image-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+}
+
+/* IMAGE CARD */
+.image-card {
+    background: rgba(255,255,255,0.04);
+    border-radius: 16px;
+    padding: 15px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.image-card h3 {
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+/* IMAGE */
+.image-card img {
+    width: 100%;
+    height: 80vh;   
+    object-fit: contain;
+    background: black;
+}
+
+/* INFO PANEL */
+.info-panel {
+    margin-top: 40px;
+    padding: 25px;
+    border-radius: 16px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+/* BADGES */
+.badges {
+    margin-bottom: 15px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 6px 14px;
+    margin: 5px;
+    border-radius: 20px;
+    background: rgba(59,130,246,0.2);
+    border: 1px solid rgba(59,130,246,0.4);
+    font-size: 13px;
+}
+
+/* FEATURES GRID */
+.features {
+    display: flex;
+    gap: 30px;
+    margin-top: 15px;
+}
+
+.feature-box {
+    flex: 1;
+    background: rgba(255,255,255,0.04);
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.feature-box p {
+    opacity: 0.7;
+    font-size: 13px;
+}
+
+.feature-box h4 {
+    margin-top: 5px;
+    font-size: 18px;
+}
+
+/* FOOTER */
+.footer {
+    text-align: center;
+    margin-top: 50px;
+    opacity: 0.4;
+    font-size: 12px;
+}
+
+@media (max-width: 900px) {
+    .image-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .image-card img {
+        height: 50vh;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>Smart Image Enhancement</h1>
+        <p>AI-powered adaptive image processing system</p>
+    </div>
+
+    <form method="POST" enctype="multipart/form-data" class="upload-box">
+        <input type="file" name="image" required>
+        <button type="submit">Enhance</button>
+    </form>
+
+    {% if original %}
+
+    <!-- IMAGES -->
+    <div class="image-grid">
+
+        <div class="image-card">
+            <h3>Original</h3>
+            <img src="{{ original }}">
+        </div>
+
+        <div class="image-card">
+            <h3>Enhanced</h3>
+            <img src="{{ output }}">
+        </div>
+
+    </div>
+
+    <!-- INFO -->
+    <div class="info-panel">
+
+        <h3>Detected Tasks</h3>
+        <div class="badges">
+            {% for t in tasks %}
+                <span class="badge">{{ t }}</span>
+            {% endfor %}
+        </div>
+
+        <h3>Pipeline</h3>
+        <p>{{ pipeline }}</p>
+
+        <div class="features">
+
+            <div class="feature-box">
+                <p>Brightness</p>
+                <h4>{{ features.brightness }}</h4>
+            </div>
+
+            <div class="feature-box">
+                <p>Sharpness</p>
+                <h4>{{ features.sharpness }}</h4>
+            </div>
+
+            <div class="feature-box">
+                <p>Contrast</p>
+                <h4>{{ features.contrast }}</h4>
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+    <div class="footer">
+        Built by Tino Reji, Neelabh Tripati,and Muskan 
+    </div>
+
+</div>
+
+</body>
+</html>
